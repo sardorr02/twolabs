@@ -2,9 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { AsciiEffect } from 'three/examples/jsm/effects/AsciiEffect.js';
 
-export default function TestAscii() {
+export default function TestPOV() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,157 +15,183 @@ export default function TestAscii() {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0, 0, 0);
+    scene.background = new THREE.Color(0x87ceeb); // Sky blue
+    scene.fog = new THREE.Fog(0x87ceeb, 50, 300);
 
-    // First-person camera (close, looking down)
-    const camera = new THREE.PerspectiveCamera(80, width / height, 0.1, 500);
-    camera.position.set(0, 50, 0);
-    camera.rotation.x = -0.7; // Look down at plants
+    // First-person camera looking down at crops
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.set(0, 60, 0);
+    camera.rotation.x = -Math.PI / 3; // Look down at 60 degrees
 
-    // Strong lighting
-    const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    sunLight.position.set(50, 100, 50);
+    // Lighting - bright outdoor sun
+    const sunLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    sunLight.position.set(100, 200, 100);
+    sunLight.castShadow = true;
     scene.add(sunLight);
 
-    const ambientLight = new THREE.AmbientLight(0x808080, 1.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    // Ground (soil/dirt)
-    const groundGeometry = new THREE.PlaneGeometry(400, 400);
-    const groundMaterial = new THREE.MeshLambertMaterial({ 
+    // Ground - dark soil
+    const groundGeometry = new THREE.PlaneGeometry(500, 500, 50, 50);
+    const groundMaterial = new THREE.MeshStandardMaterial({ 
       color: 0x3d2817,
-      side: THREE.DoubleSide 
+      roughness: 0.9
     });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = Math.PI / 2;
-    ground.position.y = -5;
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = 0;
+    ground.receiveShadow = true;
     scene.add(ground);
 
-    // Create dense vegetation (tomato plants)
-    const plants: THREE.Object3D[] = [];
+    // Create tomato plants - dense vegetation
+    const plants: THREE.Group[] = [];
     
-    // Main plant structure - use cones for leaves
-    for (let i = 0; i < 25; i++) {
-      const plantGroup = new THREE.Group();
-      
-      // Stem
-      const stemGeometry = new THREE.CylinderGeometry(1, 2, 20, 6);
-      const stemMaterial = new THREE.MeshLambertMaterial({ color: 0x2d5016 });
-      const stem = new THREE.Mesh(stemGeometry, stemMaterial);
-      stem.position.y = 10;
-      plantGroup.add(stem);
-      
-      // Leaves - multiple cones
-      for (let j = 0; j < 8; j++) {
-        const leafGeometry = new THREE.ConeGeometry(6, 12, 6);
-        const leafMaterial = new THREE.MeshLambertMaterial({ color: 0x4a7c3a });
-        const leaf = new THREE.Mesh(leafGeometry, leafMaterial);
-        leaf.position.set(
-          (Math.random() - 0.5) * 15,
-          15 + Math.random() * 10,
-          (Math.random() - 0.5) * 15
+    for (let row = 0; row < 6; row++) {
+      for (let col = 0; col < 8; col++) {
+        const plantGroup = new THREE.Group();
+        
+        // Main stem
+        const stemGeometry = new THREE.CylinderGeometry(0.5, 1, 25, 8);
+        const stemMaterial = new THREE.MeshStandardMaterial({ color: 0x3d5a27 });
+        const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+        stem.position.y = 12.5;
+        stem.castShadow = true;
+        plantGroup.add(stem);
+        
+        // Leaves - many small leafy bits
+        for (let i = 0; i < 15; i++) {
+          const leafGeometry = new THREE.SphereGeometry(
+            3 + Math.random() * 2, 
+            6, 
+            6
+          );
+          const leafMaterial = new THREE.MeshStandardMaterial({ 
+            color: new THREE.Color().setHSL(0.3, 0.6 + Math.random() * 0.2, 0.3 + Math.random() * 0.1),
+            roughness: 0.8
+          });
+          const leaf = new THREE.Mesh(leafGeometry, leafMaterial);
+          leaf.position.set(
+            (Math.random() - 0.5) * 12,
+            10 + Math.random() * 15,
+            (Math.random() - 0.5) * 12
+          );
+          leaf.scale.set(1.2, 0.6, 1);
+          leaf.rotation.set(
+            Math.random() * Math.PI,
+            Math.random() * Math.PI,
+            Math.random() * Math.PI
+          );
+          leaf.castShadow = true;
+          plantGroup.add(leaf);
+        }
+        
+        // Add tomatoes to some plants
+        if (Math.random() > 0.4) {
+          for (let i = 0; i < 2 + Math.floor(Math.random() * 3); i++) {
+            const tomatoGeometry = new THREE.SphereGeometry(2.5, 16, 16);
+            const tomatoMaterial = new THREE.MeshStandardMaterial({ 
+              color: 0xff3333,
+              roughness: 0.3,
+              metalness: 0.1
+            });
+            const tomato = new THREE.Mesh(tomatoGeometry, tomatoMaterial);
+            tomato.position.set(
+              (Math.random() - 0.5) * 10,
+              12 + Math.random() * 8,
+              (Math.random() - 0.5) * 10
+            );
+            tomato.castShadow = true;
+            plantGroup.add(tomato);
+          }
+        }
+        
+        plantGroup.position.set(
+          -70 + col * 20 + (Math.random() - 0.5) * 5,
+          0,
+          30 + row * 25 + (Math.random() - 0.5) * 5
         );
-        leaf.rotation.set(
-          Math.random() * 0.5,
-          Math.random() * Math.PI * 2,
-          Math.random() * 0.5
-        );
-        plantGroup.add(leaf);
+        plantGroup.rotation.y = Math.random() * Math.PI * 2;
+        scene.add(plantGroup);
+        plants.push(plantGroup);
       }
-      
-      plantGroup.position.set(
-        (Math.random() - 0.5) * 100,
-        0,
-        20 + Math.random() * 80
-      );
-      plantGroup.rotation.y = Math.random() * Math.PI * 2;
-      scene.add(plantGroup);
-      plants.push(plantGroup);
     }
 
-    // Add many tomatoes
-    const tomatoGeometry = new THREE.SphereGeometry(4, 12, 12);
-    const tomatoMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0xff2222,
-      shininess: 30
+    // Create realistic hands
+    const handMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0xd4a574,
+      roughness: 0.7
     });
-    const tomatoes: THREE.Mesh[] = [];
-
-    for (let i = 0; i < 30; i++) {
-      const tomato = new THREE.Mesh(tomatoGeometry, tomatoMaterial);
-      tomato.position.set(
-        (Math.random() - 0.5) * 90,
-        10 + Math.random() * 15,
-        25 + Math.random() * 70
-      );
-      scene.add(tomato);
-      tomatoes.push(tomato);
-    }
-
-    // Create realistic hands in foreground
-    const handMaterial = new THREE.MeshLambertMaterial({ color: 0xc68b59 });
     
-    // Right hand (more prominent)
-    const rightPalm = new THREE.Mesh(
-      new THREE.BoxGeometry(12, 18, 8),
-      handMaterial
-    );
-    rightPalm.position.set(25, 25, -10);
-    scene.add(rightPalm);
-
-    // Right fingers
+    // Right hand (main picking hand)
+    const rightHand = new THREE.Group();
+    
+    const palmGeometry = new THREE.BoxGeometry(8, 12, 5);
+    const palm = new THREE.Mesh(palmGeometry, handMaterial);
+    palm.position.set(0, 0, 0);
+    rightHand.add(palm);
+    
+    // Fingers
     const rightFingers: THREE.Mesh[] = [];
     for (let i = 0; i < 5; i++) {
-      const finger = new THREE.Mesh(
-        new THREE.CylinderGeometry(1.5, 1, 10, 8),
-        handMaterial
-      );
-      finger.position.set(21 + i * 3, 35, -10);
+      const fingerGeometry = new THREE.CylinderGeometry(0.8, 1, 7, 8);
+      const finger = new THREE.Mesh(fingerGeometry, handMaterial);
+      finger.position.set(-3 + i * 1.5, 8, 0);
       finger.rotation.z = 0.2;
-      scene.add(finger);
+      rightHand.add(finger);
       rightFingers.push(finger);
     }
+    
+    rightHand.position.set(20, 35, 10);
+    scene.add(rightHand);
 
-    // Left hand (partially visible, holding bowl)
+    // Left hand holding bowl (partially visible)
+    const leftHand = new THREE.Group();
     const leftPalm = new THREE.Mesh(
-      new THREE.BoxGeometry(10, 15, 7),
+      new THREE.BoxGeometry(7, 10, 4),
       handMaterial
     );
-    leftPalm.position.set(-35, 20, -15);
-    scene.add(leftPalm);
+    leftHand.add(leftPalm);
+    leftHand.position.set(-25, 30, 5);
+    leftHand.rotation.z = 0.3;
+    scene.add(leftHand);
 
     // Bowl/basket
-    const bowlGeometry = new THREE.CylinderGeometry(15, 12, 8, 16, 1, true);
-    const bowlMaterial = new THREE.MeshLambertMaterial({ 
-      color: 0xcccccc,
-      side: THREE.DoubleSide
+    const bowlGeometry = new THREE.CylinderGeometry(10, 8, 6, 16, 1, true);
+    const bowlMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0xe0e0e0,
+      side: THREE.DoubleSide,
+      roughness: 0.6
     });
     const bowl = new THREE.Mesh(bowlGeometry, bowlMaterial);
-    bowl.position.set(-30, 18, 0);
+    bowl.position.set(-22, 28, 8);
+    bowl.rotation.x = 0.2;
     scene.add(bowl);
 
     // Tomatoes in bowl
-    for (let i = 0; i < 5; i++) {
-      const tomatoInBowl = new THREE.Mesh(tomatoGeometry, tomatoMaterial);
-      tomatoInBowl.position.set(
-        -30 + (Math.random() - 0.5) * 10,
-        19 + Math.random() * 3,
-        0 + (Math.random() - 0.5) * 10
+    const tomatoesInBowl: THREE.Mesh[] = [];
+    for (let i = 0; i < 6; i++) {
+      const tomatoGeometry = new THREE.SphereGeometry(2, 12, 12);
+      const tomatoMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0xff3333,
+        roughness: 0.4
+      });
+      const tomato = new THREE.Mesh(tomatoGeometry, tomatoMaterial);
+      tomato.position.set(
+        -22 + (Math.random() - 0.5) * 8,
+        28 + Math.random() * 2,
+        8 + (Math.random() - 0.5) * 8
       );
-      scene.add(tomatoInBowl);
+      scene.add(tomato);
+      tomatoesInBowl.push(tomato);
     }
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
-
-    // ASCII Effect
-    const effect = new AsciiEffect(renderer, ' .,:;i1tfLCG08@', { invert: false });
-    effect.setSize(width, height);
-    effect.domElement.style.color = '#00ff00';
-    effect.domElement.style.backgroundColor = 'black';
-    effect.domElement.style.lineHeight = '8px';
-    container.appendChild(effect.domElement);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
 
     // Handle resize
     const handleResize = () => {
@@ -175,7 +200,6 @@ export default function TestAscii() {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
-      effect.setSize(width, height);
     };
     window.addEventListener('resize', handleResize);
 
@@ -183,39 +207,34 @@ export default function TestAscii() {
     let time = 0;
     const animate = () => {
       requestAnimationFrame(animate);
-      time += 0.02;
+      time += 0.015;
 
-      // Reaching motion for right hand
-      const reachCycle = Math.sin(time * 1.2);
+      // Realistic picking motion
+      const pickCycle = Math.sin(time * 1.3);
+      const isPicking = pickCycle < 0;
       
-      rightPalm.position.y = 25 + reachCycle * 8;
-      rightPalm.position.z = -10 + reachCycle * 15;
-      rightPalm.rotation.x = reachCycle * 0.4;
-      rightPalm.rotation.z = -0.1 + reachCycle * 0.15;
+      // Right hand reaches down to pick
+      rightHand.position.y = 35 + pickCycle * 12;
+      rightHand.position.z = 10 + (isPicking ? -pickCycle * 18 : 0);
+      rightHand.rotation.x = (isPicking ? -pickCycle * 0.5 : 0);
+      rightHand.rotation.z = -0.1 + pickCycle * 0.15;
 
-      // Fingers curl when reaching
+      // Fingers curl when picking
       rightFingers.forEach((finger, i) => {
-        finger.position.y = 35 + reachCycle * 8;
-        finger.position.z = -10 + reachCycle * 15;
-        finger.rotation.z = 0.2 + (reachCycle < 0 ? -reachCycle * 0.3 : 0);
+        const curlAmount = isPicking ? Math.abs(pickCycle) * 0.6 : 0;
+        finger.rotation.z = 0.2 + curlAmount + i * 0.05;
       });
 
-      // Gentle plant sway
+      // Plant sway in breeze
       plants.forEach((plant, i) => {
-        plant.rotation.z = Math.sin(time * 0.5 + i * 0.3) * 0.08;
+        plant.rotation.z = Math.sin(time * 0.4 + i * 0.2) * 0.06;
       });
 
-      // Tomato rotation
-      tomatoes.forEach((tomato, i) => {
-        tomato.rotation.y = time * 0.3 + i;
-      });
+      // Subtle breathing camera movement
+      camera.position.y = 60 + Math.sin(time * 0.4) * 1.5;
+      camera.rotation.x = -Math.PI / 3 + Math.sin(time * 0.3) * 0.015;
 
-      // Camera subtle movement (breathing)
-      camera.position.y = 50 + Math.sin(time * 0.3) * 1.5;
-      camera.rotation.x = -0.7 + Math.sin(time * 0.25) * 0.02;
-
-      // Render
-      effect.render(scene, camera);
+      renderer.render(scene, camera);
     };
 
     animate();
@@ -223,7 +242,7 @@ export default function TestAscii() {
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      container.innerHTML = '';
+      container.removeChild(renderer.domElement);
       renderer.dispose();
     };
   }, []);
