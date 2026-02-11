@@ -231,44 +231,6 @@ h3 {
   pointer-events: none;
 }
 
-/* Animated wave overlay */
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0.15) 0%,
-    transparent 50%
-  );
-  background-size: 200% 200%;
-  animation: gridWave 8s ease-in-out infinite;
-  pointer-events: none;
-  opacity: 0;
-}
-
-@keyframes gridWave {
-  0%, 100% {
-    opacity: 0;
-    background-position: 0% 0%;
-  }
-  25% {
-    opacity: 0.6;
-    background-position: 50% 50%;
-  }
-  50% {
-    opacity: 0.3;
-    background-position: 100% 100%;
-  }
-  75% {
-    opacity: 0.6;
-    background-position: 50% 0%;
-  }
-}
-
 /* Mission */
 .mission-text {
   font-size: clamp(28px, 3.5vw, 48px);
