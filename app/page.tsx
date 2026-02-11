@@ -30,7 +30,9 @@ export default function Home() {
       {/* Mission */}
       <Section id="mission" label="MISSION">
         <p className="mission-text reveal reveal-delay-1">
-          {COPY.mission.line1} <em>{COPY.mission.line2}</em>
+          {COPY.mission.line1}
+          <br />
+          <em>{COPY.mission.line2}</em>
         </p>
       </Section>
 
