@@ -160,18 +160,10 @@ h3 {
 }
 
 .hero .subline {
-  font-size: clamp(20px, 2vw, 28px);
-  font-weight: 300;
-  color: var(--text);
-  margin-bottom: 16px;
-}
-
-.hero .subline-secondary {
-  font-size: clamp(14px, 1.2vw, 18px);
+  font-size: clamp(18px, 1.5vw, 22px);
   font-weight: 300;
   color: var(--muted);
   margin-bottom: 40px;
-  max-width: 500px;
 }
 
 .hero .location {
