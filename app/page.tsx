@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { StatusBar, Hero, Section, ScalingCard, Button, Footer } from '@/components';
+import { StatusBar, Hero, Section, ScalingCard, Footer } from '@/components';
 import { SCALING_STATS, COPY, SITE } from '@/lib/constants';
 
 export default function Home() {
@@ -69,9 +69,7 @@ export default function Home() {
       {/* CTA */}
       <Section id="contact" label="GET IN TOUCH" className="cta-section">
         <p className="cta-text reveal reveal-delay-1">{COPY.cta}</p>
-        <Button href={`mailto:${SITE.email}`} className="reveal reveal-delay-2">
-          Partner With Us
-        </Button>
+        <p className="cta-email reveal reveal-delay-2">{SITE.email}</p>
       </Section>
 
       <Footer />

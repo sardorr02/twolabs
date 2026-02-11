@@ -341,8 +341,15 @@ h3 {
   font-weight: 300;
   color: #cccccc;
   max-width: 600px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
   text-align: center;
+}
+
+.cta-email {
+  font-family: 'Geist Mono', monospace;
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: var(--text);
+  letter-spacing: 0.05em;
 }
 
 .btn {

@@ -2,7 +2,7 @@ export const SITE = {
   name: 'TWOLABS',
   tagline: 'Training Data for Agricultural Robotics',
   description: 'We capture what robots need to learn.',
-  email: 'team@twolabs.ai',
+  email: 'sardorr02@gmail.com',
   location: 'San Francisco, CA',
 };
 
@@ -34,5 +34,5 @@ export const COPY = {
     "We put wearable cameras on farm workers in Central Asia and India, capture POV footage of real labor, label it, and sell it to robotics companies.",
   ],
   vision: 'The infrastructure layer for physical AI in agriculture.',
-  cta: 'Looking for robotics companies, research labs, and investors who share our vision.',
+  cta: 'If you share our vision, reach out.',
 };
