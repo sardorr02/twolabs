@@ -79,7 +79,7 @@ section:first-of-type {
 
 .hero-headline {
   font-family: 'Geist Mono', monospace;
-  font-size: clamp(28px, 5vw, 56px);
+  font-size: clamp(17px, 3vw, 34px);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
