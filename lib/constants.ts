@@ -20,7 +20,7 @@ export const SCALING_STATS = [
   {
     label: 'Network',
     value: '100+',
-    description: 'Workers Deployed',
+    description: 'Field Workers',
   },
 ];
 
