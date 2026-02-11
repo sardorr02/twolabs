@@ -14,10 +14,6 @@ export default function Hero() {
         <p className="subline reveal reveal-delay-2">
           Building the foundational datasets that teach machines to work alongside us in the fields.
         </p>
-        <div className="location reveal reveal-delay-3">
-          <span className="location-dot" />
-          San Francisco, CA
-        </div>
       </div>
     </section>
   );
