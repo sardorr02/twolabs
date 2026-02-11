@@ -1,4 +1,4 @@
-const CONTACT_EMAIL = 'team@twolabs.ai';
+const CONTACT_EMAIL = 'sardorr02@gmail.com';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();

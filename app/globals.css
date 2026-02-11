@@ -331,6 +331,9 @@ h3 {
 /* CTA */
 .cta-section {
   text-align: center;
+}
+
+.cta-section .container {
   display: flex;
   flex-direction: column;
   align-items: center;
