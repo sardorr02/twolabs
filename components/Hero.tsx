@@ -6,7 +6,8 @@ export default function Hero() {
       <Nav />
       <div className="container">
         <h1 className="hero-headline reveal">
-          TRAINING DATA FOR<br />AGRICULTURAL ROBOTICS
+          TRAINING DATA FOR<br />
+          <span className="hero-headline-green">AGRICULTURAL ROBOTICS</span>
         </h1>
         <p className="subline reveal reveal-delay-1">
           Building the foundational datasets that teach machines to work alongside us in the fields.
