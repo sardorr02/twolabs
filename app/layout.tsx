@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -19,11 +19,6 @@ export const metadata: Metadata = {
     siteName: "Twolabs",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Twolabs | Training Data for Agricultural Robotics",
-    description: "The infrastructure layer for physical AI in agriculture.",
-  },
 };
 
 export default function RootLayout({
@@ -33,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${jetbrainsMono.variable} font-mono antialiased`}>
         {children}
       </body>
     </html>
