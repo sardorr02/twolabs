@@ -1,10 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+
+type ModalType = 'overview' | 'stats' | 'contact' | null;
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -21,11 +24,10 @@ export default function Home() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Voxel cubes
     const cubes: THREE.Mesh[] = [];
     const geometry = new THREE.BoxGeometry(1.8, 1.8, 1.8);
 
-    // Ground grid of voxels
+    // Ground grid
     for (let x = -15; x <= 15; x += 3) {
       for (let z = -15; z <= 15; z += 3) {
         const height = Math.random() * 4 + 1;
@@ -63,11 +65,7 @@ export default function Home() {
         (Math.random() - 0.5) * 50
       );
       cube.scale.set(size, size, size);
-      cube.rotation.set(
-        Math.random() * Math.PI,
-        Math.random() * Math.PI,
-        Math.random() * Math.PI
-      );
+      cube.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
       cube.userData = {
         baseY: cube.position.y,
         phase: Math.random() * Math.PI * 2,
@@ -79,7 +77,6 @@ export default function Home() {
       cubes.push(cube);
     }
 
-    // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
 
@@ -91,11 +88,6 @@ export default function Home() {
     pointLight1.position.set(-20, 10, -20);
     scene.add(pointLight1);
 
-    const pointLight2 = new THREE.PointLight(0x6644ff, 0.3, 60);
-    pointLight2.position.set(20, 5, 20);
-    scene.add(pointLight2);
-
-    // Animation
     let time = 0;
     const animate = () => {
       requestAnimationFrame(animate);
@@ -132,137 +124,186 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-hidden">
       {/* Three.js Canvas */}
-      <canvas ref={canvasRef} id="three-canvas" />
+      <canvas ref={canvasRef} className="fixed inset-0 z-0" />
 
-      {/* Content */}
-      <div className="relative z-10">
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex flex-col">
         {/* Nav */}
-        <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-6 flex justify-between items-center">
+        <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-10 py-6 flex justify-between items-center">
           <span className="font-mono text-xs tracking-[0.2em] text-gray-400">TWOLABS</span>
           <a href="mailto:hello@twolabs.so" className="font-mono text-xs tracking-[0.1em] text-gray-500 hover:text-white transition-colors">
             CONTACT
           </a>
         </nav>
 
-        {/* Hero */}
-        <section className="min-h-screen flex flex-col justify-end px-8 pb-16">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white mb-4">
+        {/* Hero - Bottom Left */}
+        <div className="flex-1 flex flex-col justify-end px-6 md:px-10 pb-10">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white mb-2">
             TWOLABS
           </h1>
-          <p className="font-mono text-sm text-gray-500 mb-8 flex items-center gap-2">
+          <p className="font-mono text-sm text-gray-500 mb-6 flex items-center gap-2">
             <span>📍</span> San Francisco, CA
           </p>
           <div className="flex flex-wrap gap-3">
-            <a href="#overview" className="font-mono text-xs tracking-[0.1em] px-5 py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-all">
-              OVERVIEW.MD
-            </a>
-            <a href="#stats" className="font-mono text-xs tracking-[0.1em] px-5 py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-all">
-              STATS.MD
-            </a>
-            <a href="#contact" className="font-mono text-xs tracking-[0.1em] px-5 py-3 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-all">
-              CONTACT.MD
-            </a>
-          </div>
-        </section>
-
-        {/* Overview */}
-        <section id="overview" className="min-h-screen px-8 py-24 bg-[#0a0a0a]/95 backdrop-blur-md">
-          <div className="max-w-4xl">
-            <h2 className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2"># Overview</h2>
-            
-            <div className="mt-12">
-              <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-4">WHAT</p>
-              <p className="text-xl md:text-2xl text-gray-100 leading-relaxed max-w-3xl">
-                Training datasets for agricultural robotics. We put wearable cameras on farm workers 
-                in India and Central Asia, capture POV footage of real labor, label it, and sell it 
-                to robotics companies.
-              </p>
-            </div>
-
-            <div className="mt-16">
-              <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-4">WHY</p>
-              <p className="text-xl md:text-2xl text-gray-100 leading-relaxed max-w-3xl">
-                Eight billion people need to eat. Robots will help us feed them. Agricultural robots 
-                are coming, but they need training data that doesn't exist — real-world footage of 
-                human hands harvesting crops, handling livestock, processing food.
-              </p>
-              <p className="text-xl md:text-2xl text-gray-100 leading-relaxed max-w-3xl mt-6">
-                We're building the infrastructure layer for physical AI in agriculture.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
-              <div>
-                <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">FOCUS</p>
-                <p className="text-white text-lg">Egocentric Video</p>
-              </div>
-              <div>
-                <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">REGIONS</p>
-                <p className="text-white text-lg">India, Central Asia</p>
-              </div>
-              <div>
-                <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">CUSTOMERS</p>
-                <p className="text-white text-lg">Robotics Labs</p>
-              </div>
-              <div>
-                <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">STAGE</p>
-                <p className="text-white text-lg">Pre-Seed</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats */}
-        <section id="stats" className="px-8 py-24 bg-[#0a0a0a]/95 backdrop-blur-md border-t border-gray-800/50">
-          <div className="max-w-4xl">
-            <h2 className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-12"># Stats</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div>
-                <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">CAMERA</p>
-                <p className="text-4xl md:text-5xl font-light text-white">TL-1</p>
-              </div>
-              <div>
-                <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">TARGET HOURS</p>
-                <p className="text-4xl md:text-5xl font-light text-white">10,000+</p>
-              </div>
-              <div>
-                <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">WORKERS</p>
-                <p className="text-4xl md:text-5xl font-light text-white">100+</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section id="contact" className="px-8 py-24 bg-[#0a0a0a]/95 backdrop-blur-md border-t border-gray-800/50">
-          <div className="max-w-4xl">
-            <h2 className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-12"># Contact</h2>
-            
-            <p className="text-xl md:text-2xl text-gray-100 leading-relaxed max-w-2xl mb-12">
-              Building the foundation for agricultural robotics. Looking for robotics companies, 
-              research labs, and investors who share our vision.
-            </p>
-            
-            <a 
-              href="mailto:hello@twolabs.so"
-              className="inline-block px-8 py-4 bg-white text-black font-mono text-sm tracking-[0.1em] hover:bg-gray-200 transition-colors"
+            <button 
+              onClick={() => setActiveModal('overview')}
+              className="font-mono text-xs tracking-[0.05em] px-4 py-2.5 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-all flex items-center gap-2"
             >
-              PARTNER WITH US
-            </a>
+              <span className="text-gray-600">📄</span> OVERVIEW.MD
+            </button>
+            <button 
+              onClick={() => setActiveModal('stats')}
+              className="font-mono text-xs tracking-[0.05em] px-4 py-2.5 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-all flex items-center gap-2"
+            >
+              <span className="text-gray-600">📄</span> STATS.MD
+            </button>
+            <button 
+              onClick={() => setActiveModal('contact')}
+              className="font-mono text-xs tracking-[0.05em] px-4 py-2.5 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-all flex items-center gap-2"
+            >
+              <span className="text-gray-600">📄</span> CONTACT.MD
+            </button>
           </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="px-8 py-8 border-t border-gray-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <span className="font-mono text-xs text-gray-600">© 2026 TWOLABS</span>
-          <a href="mailto:hello@twolabs.so" className="font-mono text-xs text-gray-600 hover:text-white transition-colors">
-            hello@twolabs.so
-          </a>
-        </footer>
+        </div>
       </div>
+
+      {/* Modal Overlay */}
+      {activeModal && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+          onClick={() => setActiveModal(null)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+          
+          {/* Modal */}
+          <div 
+            className="relative bg-[#111111] border border-gray-800 w-full max-w-3xl max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-[#111111] border-b border-gray-800 px-6 md:px-8 py-4 flex justify-between items-center">
+              <span className="font-mono text-sm text-gray-400 flex items-center gap-2">
+                <span className="text-gray-600">📄</span>
+                {activeModal === 'overview' && 'OVERVIEW.MD'}
+                {activeModal === 'stats' && 'STATS.MD'}
+                {activeModal === 'contact' && 'CONTACT.MD'}
+              </span>
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="text-gray-500 hover:text-white transition-colors text-xl"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="px-6 md:px-8 py-8">
+              {activeModal === 'overview' && (
+                <>
+                  <h2 className="text-3xl md:text-4xl font-light text-white mb-10">
+                    <span className="text-gray-500">#</span> Overview
+                  </h2>
+
+                  <div className="space-y-10">
+                    <div>
+                      <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">WHAT</p>
+                      <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
+                        Training datasets for agricultural robotics. We put wearable cameras on farm workers 
+                        in India and Central Asia, capture POV footage of real labor, label it, and sell it 
+                        to robotics companies.
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">WHY</p>
+                      <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
+                        Eight billion people need to eat. Robots will help us feed them. Agricultural robots 
+                        are coming, but they need training data that doesn't exist — real-world footage of 
+                        human hands harvesting crops, handling livestock, processing food.
+                      </p>
+                      <p className="text-lg md:text-xl text-gray-200 leading-relaxed mt-4">
+                        We're building the infrastructure layer for physical AI in agriculture.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-8 pt-6">
+                      <div>
+                        <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">FOCUS</p>
+                        <p className="font-mono text-base text-white">Egocentric Video</p>
+                      </div>
+                      <div>
+                        <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">REGIONS</p>
+                        <p className="font-mono text-base text-white">India, Central Asia</p>
+                      </div>
+                      <div>
+                        <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">CUSTOMERS</p>
+                        <p className="font-mono text-base text-white">Robotics Labs</p>
+                      </div>
+                      <div>
+                        <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">STAGE</p>
+                        <p className="font-mono text-base text-white">Pre-Seed</p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {activeModal === 'stats' && (
+                <>
+                  <h2 className="text-3xl md:text-4xl font-light text-white mb-10">
+                    <span className="text-gray-500">#</span> Stats
+                  </h2>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div>
+                      <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">CAMERA</p>
+                      <p className="text-4xl md:text-5xl font-light text-white">TL-1</p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">TARGET HOURS</p>
+                      <p className="text-4xl md:text-5xl font-light text-white">10,000+</p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-3">WORKERS</p>
+                      <p className="text-4xl md:text-5xl font-light text-white">100+</p>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {activeModal === 'contact' && (
+                <>
+                  <h2 className="text-3xl md:text-4xl font-light text-white mb-10">
+                    <span className="text-gray-500">#</span> Contact
+                  </h2>
+
+                  <p className="text-lg md:text-xl text-gray-200 leading-relaxed mb-10">
+                    Building the foundation for agricultural robotics. Looking for robotics companies, 
+                    research labs, and investors who share our vision.
+                  </p>
+
+                  <a 
+                    href="mailto:hello@twolabs.so"
+                    className="inline-block px-6 py-3 bg-white text-black font-mono text-sm tracking-[0.05em] hover:bg-gray-200 transition-colors"
+                  >
+                    PARTNER WITH US
+                  </a>
+
+                  <div className="mt-10 pt-8 border-t border-gray-800">
+                    <p className="font-mono text-xs tracking-[0.2em] text-gray-500 mb-2">EMAIL</p>
+                    <a href="mailto:hello@twolabs.so" className="font-mono text-base text-white hover:text-gray-300 transition-colors">
+                      hello@twolabs.so
+                    </a>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
