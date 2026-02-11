@@ -12,9 +12,6 @@ export default function Footer() {
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
         </div>
       </div>
-      <div className="footer-line">
-        © {currentYear} TWOLABS — Training Data for Agricultural Robotics
-      </div>
     </footer>
   );
 }
