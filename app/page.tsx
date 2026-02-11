@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { StatusBar, Hero, Section, ScalingCard, Footer } from '@/components';
+import { StatusBar, Hero, Section, ScalingCard } from '@/components';
 import { SCALING_STATS, COPY, SITE } from '@/lib/constants';
 
 export default function Home() {
@@ -72,8 +72,6 @@ export default function Home() {
         <p className="cta-email reveal reveal-delay-2">{SITE.email}</p>
       </Section>
 
-      <Footer />
-      
       {/* Spacer for status bar */}
       <div style={{ height: 40 }} />
     </>
