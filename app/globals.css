@@ -144,8 +144,9 @@ h3 {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding-top: 18vh;
   padding-bottom: 80px;
   position: relative;
 }
