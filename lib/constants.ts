@@ -31,7 +31,7 @@ export const COPY = {
   },
   whatWeDo: [
     "Agricultural robots are coming. But they need training data that doesn't exist yet. Real-world footage of human hands harvesting crops, handling livestock, processing food.",
-    "We put wearable cameras on farm workers in Central Asia and India, capture POV footage of real labor, label it, and sell it to robotics companies.",
+    "Asia: We put wearable cameras on farm workers in Central Asia and India, capture POV footage of real labor, label it, and sell it to robotics companies.",
   ],
   vision: 'The infrastructure layer for physical AI in agriculture.',
   cta: 'For robotics companies, research labs, and investors who share our vision.',
