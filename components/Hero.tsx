@@ -11,9 +11,9 @@ export default function Hero() {
           <Image 
             src="/yc-logo.png" 
             alt="Y Combinator" 
-            width={162} 
-            height={32}
-            style={{ objectFit: 'contain', marginLeft: '-18px' }}
+            width={178} 
+            height={35}
+            style={{ objectFit: 'contain', marginLeft: '-20px' }}
           />
         </div>
         <h1 className="hero-headline reveal reveal-delay-1">
