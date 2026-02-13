@@ -85,6 +85,7 @@ section:first-of-type {
   text-transform: uppercase;
   color: var(--text);
   line-height: 1.3;
+  margin-top: 8vh;
   margin-bottom: 32px;
   text-align: center;
 }
