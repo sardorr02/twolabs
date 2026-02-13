@@ -11,8 +11,8 @@ export default function Hero() {
           <Image 
             src="/yc-logo.png" 
             alt="Y Combinator" 
-            width={130} 
-            height={26}
+            width={180} 
+            height={36}
             style={{ objectFit: 'contain' }}
           />
         </div>

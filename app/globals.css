@@ -97,12 +97,12 @@ section:first-of-type {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 2px;
   margin-bottom: 32px;
 }
 
 .backed-by span {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 400;
   color: var(--muted);
   letter-spacing: 0.02em;
