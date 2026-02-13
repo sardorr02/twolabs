@@ -107,6 +107,7 @@ section:first-of-type {
   font-weight: 400;
   color: var(--muted);
   letter-spacing: 0.02em;
+  transform: translateY(-2px);
 }
 
 /* Headings */
