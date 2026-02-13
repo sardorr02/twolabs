@@ -102,7 +102,7 @@ section:first-of-type {
 }
 
 .backed-by span {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: var(--muted);
   letter-spacing: 0.02em;
