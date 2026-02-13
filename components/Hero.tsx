@@ -6,23 +6,23 @@ export default function Hero() {
     <section className="hero">
       <Nav />
       <div className="container">
-        <h1 className="hero-headline reveal">
-          TRAINING DATA FOR<br />
-          <span className="hero-headline-green">AGRICULTURAL ROBOTICS</span>
-        </h1>
-        <p className="subline reveal reveal-delay-1">
-          Building the foundational datasets that teach machines to work alongside us in the fields.
-        </p>
-        <div className="backed-by reveal reveal-delay-2">
+        <div className="backed-by reveal">
           <span>Backed by</span>
           <Image 
             src="/yc-logo.png" 
             alt="Y Combinator" 
-            width={150} 
-            height={30}
+            width={130} 
+            height={26}
             style={{ objectFit: 'contain' }}
           />
         </div>
+        <h1 className="hero-headline reveal reveal-delay-1">
+          TRAINING DATA FOR<br />
+          <span className="hero-headline-green">AGRICULTURAL ROBOTICS</span>
+        </h1>
+        <p className="subline reveal reveal-delay-2">
+          Building the foundational datasets that teach machines to work alongside us in the fields.
+        </p>
       </div>
     </section>
   );
