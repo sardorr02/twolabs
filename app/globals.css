@@ -564,6 +564,7 @@ footer {
   .hero {
     min-height: 100vh;
     padding: 60px 24px 60px;
+    padding-top: 28vh;
   }
 
   .hero-logo {
@@ -580,6 +581,7 @@ footer {
     justify-content: center;
     margin-left: 0;
     padding-left: 10px;
+    transform: scale(0.75);
   }
 
   .hero-headline {
