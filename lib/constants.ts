@@ -2,7 +2,7 @@ export const SITE = {
   name: 'TWOLABS',
   tagline: 'Training Data for Agricultural Robotics',
   description: 'We capture what robots need to learn.',
-  email: 'sardor@twolabs.ai',
+  email: 'team@twolabs.ai',
   location: 'San Francisco, CA',
 };
 
