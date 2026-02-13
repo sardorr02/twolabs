@@ -13,7 +13,7 @@ export default function Hero() {
             alt="Y Combinator" 
             width={180} 
             height={36}
-            style={{ objectFit: 'contain' }}
+            style={{ objectFit: 'contain', marginLeft: '-20px' }}
           />
         </div>
         <h1 className="hero-headline reveal reveal-delay-1">
