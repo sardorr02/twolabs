@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 152.48 152.47">
   <g id="Layer_1-2" data-name="Layer 1">
-    <path d="M0,0v152.47h152.48V0H0ZM49.82,118.78V48.77l21.32-15.07v70l-21.32,15.08ZM102.66,103.7l-21.32,15.08V48.77l21.32-15.07v70Z"/>
+    <!-- Black background -->
+    <rect width="152.48" height="152.47" fill="#000000"/>
+    <!-- White slashes -->
+    <polygon points="49.82,118.78 49.82,48.77 71.14,33.7 71.14,103.7" fill="#ffffff"/>
+    <polygon points="102.66,103.7 81.34,118.78 81.34,48.77 102.66,33.7" fill="#ffffff"/>
   </g>
 </svg>
