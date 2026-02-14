@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   description: 'We capture what robots need to learn. Building the foundational datasets that teach machines to work alongside us in the fields.',
   keywords: ['robotics', 'agriculture', 'training data', 'AI', 'machine learning', 'farming'],
   authors: [{ name: 'TWOLABS' }],
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: 'TWOLABS — Training Data for Agricultural Robotics',
     description: 'The infrastructure layer for physical AI in agriculture.',
