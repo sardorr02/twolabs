@@ -16,11 +16,20 @@ export const metadata: Metadata = {
     url: 'https://twolabs.ai',
     siteName: 'Twolabs',
     type: 'website',
+    images: [
+      {
+        url: 'https://twolabs.ai/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Twolabs - Data for Physical Intelligence',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Twolabs | Data for Physical Intelligence',
     description: 'The infrastructure layer for physical AI in agriculture.',
+    images: ['https://twolabs.ai/og-image.png'],
   },
 };
 
