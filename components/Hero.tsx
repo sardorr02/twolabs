@@ -18,10 +18,10 @@ export default function Hero() {
         </div>
         <h1 className="hero-headline reveal reveal-delay-1">
           TRAINING DATA FOR<br />
-          <span className="hero-headline-green">AGRICULTURAL ROBOTICS</span>
+          <span className="hero-headline-green">PHYSICAL AI</span>
         </h1>
         <p className="subline reveal reveal-delay-2">
-          Building the foundational datasets that teach machines to work alongside us in the fields.
+          Building the foundational datasets that teach machines to work alongside us.
         </p>
       </div>
     </section>
